@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>💖 لصديقتي</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #1e0033, #000);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+.container {
+    margin-top: 80px;
+    position: relative;
+    z-index: 2;
+}
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    width: 400px;
+    max-width: 90%;
+    margin: auto;
+    box-shadow: 0 0 20px pink;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+    from { box-shadow: 0 0 20px pink; }
+    to { box-shadow: 0 0 40px purple; }
+}
+input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 20px;
+    text-align: center;
+    outline: none;
+}
+button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(to right, pink, purple);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    transform: scale(1.05);
+}
+.hidden {
+    display: none;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;
+}
+/* قلوب طايرة */
+.heart {
+    position: absolute;
+    animation: floatUp 4s linear infinite;
+    user-select: none;
+    z-index: 1;
+}
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(-150px) scale(1.2); }
+    100% { transform: translateY(-300px) scale(0.8); opacity: 0; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="card" id="card">
+        <h2 id="title">💖 ليكي يا أحلى صديقة</h2>
+        <p>اكتبي الكود عشان تشوفي المفاجأة 💕</p>
+
+        <input type="password" id="code" placeholder="اكتبي الكود">
+        <button onclick="checkCode()">دوسي هنا 💌</button>
+
+        <p id="message" class="hidden"></p>
+    </div>
+</div>
+
+<audio id="music" loop>
+    <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const fullMessage = "حبيبتي وصديقتي الغالية أحب أشكرك على وجودك في حياتي على ضحكتك على كل اللحظات الجميلة اللي عشناها سوا وعلى دعمك المستمر كل مرة أفكر فيك بحس قد إيه أنا محظوظة إن عندي صديقة زيك شخص يفهمني بدون كلام ويقف جنبي دايمًا أتمنى ليكي دايمًا السعادة الفرح والنجاح في كل حاجة تعمليها أحبك جدًا ومش ممكن أتخيل حياتي من غيرك كل يوم معاك أحلى من اليوم اللي قبله وكل سنة وإنتي معايا يا أغلى صديقة في العالم 🌸✨";
+
+function checkCode() {
+    let code = document.getElementById("code").value;
+    if(code === "1234") {
+        document.getElementById("code").style.display = "none";
+        document.querySelector('button').style.display = "none";
+
+        document.getElementById("music").play(); // الموسيقى تشتغل تلقائي
+
+        animateTitle();
+        startHearts();
+        typeMessage(fullMessage);
+    } else {
+        alert("الكود غلط 😢");
+    }
+}
+
+// ظهور الرسالة حرف حرف
+function typeMessage(message) {
+    const messageEl = document.getElementById("message");
+    messageEl.style.display = "block";
+    let index = 0;
+    const interval = setInterval(() => {
+        messageEl.textContent += message[index];
+        index++;
+        if(index >= message.length) clearInterval(interval);
+    }, 25);
+}
+
+// حركة العنوان
+function animateTitle() {
+    const title = document.getElementById("title");
+    let scale = 1;
+    let growing = true;
+    setInterval(() => {
+        if(growing) { scale += 0.01; if(scale >= 1.1) growing = false; }
+        else { scale -= 0.01; if(scale <= 1) growing = true; }
+        title.style.transform = `scale(${scale})`;
+    }, 20);
+}
+
+// قلوب طايرة
+function startHearts() {
+    const colors = ['#ff69b4','#ff1493','#ffb6c1','#db7093','#ff7f50'];
+    function createHearts() {
+        for(let i=0;i<30;i++){
+            let heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random()*window.innerWidth+'px';
+            heart.style.animationDuration=(2+Math.random()*3)+'s';
+            heart.style.fontSize=(10+Math.random()*30)+'px';
+            heart.style.color=colors[Math.floor(Math.random()*colors.length)];
+            heart.innerHTML='❤️';
+            document.body.appendChild(heart);
+            setTimeout(()=>{heart.remove();},4000);
+        }
+    }
+    createHearts();
+    setInterval(createHearts,1000);
+}
+</script>
+</body>
+</html>
